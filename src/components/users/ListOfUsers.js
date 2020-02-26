@@ -124,7 +124,7 @@ const ListOfUsers = ({ users = [], userSearch }) => {
           : "Not invited"
       }
       leftAvatar={{
-        source: item.photoURL && { uri: item.photoURL },
+        source: item.photoURL.length && { uri: item.photoURL },
         title: item.displayName[0]
       }}
       bottomDivider
