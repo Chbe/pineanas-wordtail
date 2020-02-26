@@ -23,6 +23,8 @@ import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/login/LoginPage";
 import SplashScreen from "./pages/splashscreen/SplashScreen";
 import CreateGamePage from "./pages/create-game/CreateGamePage";
+import GamePage from "./pages/game/GamePage";
+import GenerateExampleGames from "./test/GenerateExampleGames";
 
 import { ThemeProvider } from "react-native-elements";
 
@@ -70,11 +72,17 @@ const App = () => {
               <Stack.Screen
                 name="Home"
                 component={HomePage}
+                // component={GenerateExampleGames}
                 options={homeHeaderOptions}
               />
               <Stack.Screen
                 name="CreateGame"
                 component={CreateGamePage}
+                options={homeHeaderOptions}
+              />
+              <Stack.Screen
+                name="Game"
+                component={GamePage}
                 options={homeHeaderOptions}
               />
             </>

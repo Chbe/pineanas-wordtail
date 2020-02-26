@@ -18,7 +18,7 @@ import {
   getDisplayNameByUid
 } from "../../services/game/GameService";
 import Modal from "react-native-modal";
-import Spinner from "../../components/UI/controls/spinner/Spinner";
+import Spinner from "../../components/ui/controls/spinner/Spinner";
 
 const Wrapper = styled(CenterView)`
   justify-content: space-between;
@@ -39,7 +39,7 @@ const ModalContainer = styled(CenterView)`
   border-color: rgba(0, 0, 0, 0.1);
 `;
 
-const GamePage = ({ navigation, theme }) => {
+const GamePage = ({ route, navigation, theme }) => {
   const { state, actions } = GameStore();
   const time = 25000;
   const maxMarks = 5;
@@ -381,9 +381,7 @@ const GamePage = ({ navigation, theme }) => {
   };
 
   useEffect(() => {
-    const gameParam = navigation.getParam("game", {});
-    const uid = navigation.getParam("uid", "");
-    const calling = navigation.getParam("calling", false);
+    const { game: gameParam, uid, calling } = route.params;
     setUid(uid);
     setGame(gameParam);
     setCalling(calling);

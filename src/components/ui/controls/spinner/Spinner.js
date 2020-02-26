@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ActivityIndicator, Text } from 'react-native'
 import styled from 'styled-components'
-import { CenterView } from '../../Containers/Containers'
 
 const SpinnerContainer = styled.TouchableOpacity`
     justify-content: center;

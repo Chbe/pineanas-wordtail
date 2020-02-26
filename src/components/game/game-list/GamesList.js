@@ -65,6 +65,7 @@ const GamesList = ({ navigation, uid, theme }) => {
   };
 
   const goToGame = item => {
+    console.log(navigation)
     if (
       item.status === "pending" &&
       item.players.find(p => p.uid === uid && p.accepted === false)
