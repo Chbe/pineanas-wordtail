@@ -1,11 +1,16 @@
-import React from "react";
-import { SafeWrapper, PaddingView } from "../../components/ui/containers/Containers";
+import React, { useEffect, useState } from "react";
+import {
+  SafeWrapper,
+  PaddingView
+} from "../../components/ui/containers/Containers";
 import { Text, withTheme, Button } from "react-native-elements";
-import { logout } from "../../components/auth/AuthFunctions";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import GamesList from "../../components/game/game-list/GamesList";
+import firebase from "@react-native-firebase/app";
 
-const HomePage = ({ navigation, theme }, ...props) => {
-  console.log(navigation)
+const HomePage = ({ navigation, theme }) => {
+  const [user, setUser] = useState("");
+
   navigation.setOptions({
     headerLeft: () => (
       <PaddingView>
@@ -28,12 +33,19 @@ const HomePage = ({ navigation, theme }, ...props) => {
       </PaddingView>
     )
   });
+
+  useEffect(() => {
+    const { currentUser } = firebase.auth();
+    setUser(currentUser);
+    return () => {};
+  }, []);
   return (
     <SafeWrapper bg={theme.colors.lightShade}>
-      <Text>HomePage</Text>
-      <Button title="Signout" onPress={() => logout()}></Button>
+      {/* <GenerateExampleGames /> */}
+      <PaddingView style={{ height: "100%" }}>
+        <GamesList navigation={navigation} uid={user.uid} />
+      </PaddingView>
     </SafeWrapper>
   );
 };
-
 export default withTheme(HomePage);
