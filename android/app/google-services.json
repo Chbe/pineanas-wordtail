@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "753649491176",
+    "firebase_url": "https://pineanas-wordtail-dev.firebaseio.com",
+    "project_id": "pineanas-wordtail-dev",
+    "storage_bucket": "pineanas-wordtail-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753649491176:android:e6c5f5244da3e2c0a53d5d",
+        "android_client_info": {
+          "package_name": "com.pineanas.wordtail"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753649491176-30bh6p0jvgjdlepi2udk31v6au6cmotm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWwjoPn1Q7CAFBnSPuumsOC9GdxAIkUpQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753649491176-30bh6p0jvgjdlepi2udk31v6au6cmotm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "753649491176-9ockv5jkbjk9ke9gk0k9p6b91oq9gvkc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pineanas.wordtail"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
