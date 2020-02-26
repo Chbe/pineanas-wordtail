@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>753649491176-9ockv5jkbjk9ke9gk0k9p6b91oq9gvkc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.753649491176-9ockv5jkbjk9ke9gk0k9p6b91oq9gvkc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCIaR5fRR3iySB5J9zLXSSBwFuib-zQBu8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>753649491176</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.pineanas.wordtail</string>
+	<key>PROJECT_ID</key>
+	<string>pineanas-wordtail-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pineanas-wordtail-dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:753649491176:ios:10549fe58572e3e5a53d5d</string>
+	<key>DATABASE_URL</key>
+	<string>https://pineanas-wordtail-dev.firebaseio.com</string>
+</dict>
+</plist>

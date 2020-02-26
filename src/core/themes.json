@@ -1,0 +1,19 @@
+[
+    {
+        "name": "Shamrock",
+        "barStyle": "light-content",
+        "colors": {
+            "primary": "#31C7B1", 
+            "lightAccent": "#23A6DE",
+            "darkAccent": "#7F6AE1",
+            "lightShade": "#F9F9F9",
+            "darkShade": "#4F4750",
+            "success": "#67b177",
+            "warning": "#e5a13f",
+            "danger": "#f44336"
+        },
+        "padding": "12px",
+        "borderRadius": 10,
+        "fontSize": 18
+    }
+]
