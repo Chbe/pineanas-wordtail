@@ -1,4 +1,4 @@
-package com.pineanaswordtail;
+package com.pineanas.wordtail;
 
 import android.app.Application;
 import android.content.Context;

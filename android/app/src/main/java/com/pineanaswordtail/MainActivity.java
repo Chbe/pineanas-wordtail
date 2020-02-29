@@ -1,4 +1,4 @@
-package com.pineanaswordtail;
+package com.pineanas.wordtail;
 
 import com.facebook.react.ReactActivity;
 
