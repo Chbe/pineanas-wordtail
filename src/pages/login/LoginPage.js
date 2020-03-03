@@ -6,6 +6,7 @@ import {
 } from "../../components/ui/containers/Containers";
 import { Text, withTheme } from "react-native-elements";
 import AnonymousLogin from "../../components/auth/login/AnonymousLogin";
+import FacebookLogin from "../../components/auth/login/FacebookLogin";
 
 const LoginPage = ({ theme }) => {
   return (
@@ -16,7 +17,7 @@ const LoginPage = ({ theme }) => {
                       <EmailLogin navigation={navigation} />
                   </PaddingView> */}
         <PaddingView padding={5}>
-          {/* <FacebookLogin navigation={navigation} /> */}
+          <FacebookLogin />
         </PaddingView>
         <PaddingView padding={5}>
           <AnonymousLogin />

@@ -1,4 +1,4 @@
-// import { LoginManager, AccessToken } from "react-native-fbsdk";
+import { LoginManager, AccessToken } from "react-native-fbsdk";
 import firebase from "@react-native-firebase/app";
 
 export const logout = () => {
@@ -10,44 +10,44 @@ export const logout = () => {
 };
 
 // Calling the following function will open the FB login dialogue:
-// export const facebookLogin = async () => {
-//   try {
-//     const result = await LoginManager.logInWithPermissions([
-//       "public_profile",
-//       "email"
-//     ]);
+export const facebookLogin = async () => {
+  try {
+    const result = await LoginManager.logInWithPermissions([
+      "public_profile",
+      "email"
+    ]);
 
-//     if (result.isCancelled) {
-//       // handle this however suites the flow of your app
-//       console.warn("User cancelled request");
-//       return null;
-//     }
+    if (result.isCancelled) {
+      // handle this however suites the flow of your app
+      console.warn("User cancelled request");
+      return null;
+    }
 
-//     // get the access token
-//     const data = await AccessToken.getCurrentAccessToken();
+    // get the access token
+    const data = await AccessToken.getCurrentAccessToken();
 
-//     if (!data) {
-//       // handle this however suites the flow of your app
-//       console.error("Something went wrong obtaining the users access token");
-//       return null;
-//     }
+    if (!data) {
+      // handle this however suites the flow of your app
+      console.error("Something went wrong obtaining the users access token");
+      return null;
+    }
 
-//     // create a new firebase credential with the token
-//     const credential = firebase.auth.FacebookAuthProvider.credential(
-//       data.accessToken
-//     );
+    // create a new firebase credential with the token
+    const credential = firebase.auth.FacebookAuthProvider.credential(
+      data.accessToken
+    );
 
-//     // login with credential
-//     const firebaseUserCredential = await firebase
-//       .auth()
-//       .signInWithCredential(credential);
-//     prepareDataForUpdate(firebaseUserCredential.user);
+    // login with credential
+    const firebaseUserCredential = await firebase
+      .auth()
+      .signInWithCredential(credential);
+    prepareDataForUpdate(firebaseUserCredential.user);
 
-//     return firebaseUserCredential;
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
+    return firebaseUserCredential;
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 export const anonymousLogin = async () => {
   try {

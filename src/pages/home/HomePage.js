@@ -18,7 +18,7 @@ const HomePage = ({ navigation, theme }) => {
           color={theme.barStyle === "light-content" ? "#fff" : "#000"}
           size={24}
           name="user-cog"
-          onPress={() => alert("This is a button!")}
+          onPress={() => navigation.navigate("Profile")}
         />
       </PaddingView>
     ),
