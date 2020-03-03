@@ -43,10 +43,13 @@ const HomePage = ({ navigation, theme }) => {
   });
 
   useEffect(() => {
-    const { currentUser } = firebase.auth();
-    setUser(currentUser);
-    return () => {};
-  }, []);
+    const unsubscribe = navigation.addListener("focus", () => {
+      setUser(firebase.auth().currentUser);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <SafeWrapper bg={theme.colors.lightShade}>
       {/* <GenerateExampleGames /> */}

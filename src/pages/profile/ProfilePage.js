@@ -16,22 +16,19 @@ const ProfilePage = ({ theme }) => {
   const [user, setUser] = useState({});
   const [fbUser, setFbUser] = useState({});
 
-  const setUserInfo = async currentUser => {
-    setFbUser(currentUser);
-    const user = await firebase
-      .firestore()
-      .doc(`users/${currentUser.uid}`)
-      .get();
-
-    setUser(user.exists ? user.data() : {});
+  const setUserInfo = async querySnapshot => {
+    setFbUser(firebase.auth().currentUser);
+    const userData = querySnapshot.data();
+    if (userData) {
+      setUser(userData);
+    }
   };
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        setUserInfo(user);
-      }
-    });
+    const uid = firebase.auth().currentUser.uid;
+    const userRef = firebase.firestore().doc(`users/${uid}`);
+
+    let unsubscribe = userRef.onSnapshot(setUserInfo);
     return () => {
       unsubscribe();
     };
