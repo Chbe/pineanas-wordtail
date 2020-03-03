@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withTheme, Button, Avatar } from "react-native-elements";
+import { withTheme, Button, Avatar, Text } from "react-native-elements";
 import { logout } from "../../components/auth/AuthFunctions";
 import firebase from "@react-native-firebase/app";
 import {
@@ -9,66 +9,45 @@ import {
 } from "../../components/ui/containers/Containers";
 import { View } from "react-native";
 import TextField from "../../components/ui/controls/inputs/floating/FloatingInput";
+import NotAnonymous from "./not-anonymous/NotAnonymous";
+import Anonymous from "./anonymous/Anonymous";
 
 const ProfilePage = ({ theme }) => {
   const [user, setUser] = useState({});
-  const [usernameInputValue, setUsernameInputValue] = useState("");
-  const [displayNameInputValue, setDisplayNameInputValue] = useState("");
-  const [emailInputValue, setEmailInputValue] = useState("");
+  const [fbUser, setFbUser] = useState({});
 
-  const setUserInfo = async () => {
-    const uid = firebase.auth().currentUser.uid;
+  const setUserInfo = async currentUser => {
+    setFbUser(currentUser);
     const user = await firebase
       .firestore()
-      .doc(`users/${uid}`)
+      .doc(`users/${currentUser.uid}`)
       .get();
 
     setUser(user.exists ? user.data() : {});
   };
 
   useEffect(() => {
-    setUserInfo();
+    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        setUserInfo(user);
+      }
+    });
     return () => {
-      //
+      unsubscribe();
     };
   }, []);
 
   return (
     <SafeWrapper bg={theme.colors.lightShade}>
       <PaddingView>
-        <CenterView>
-          <Avatar
-            size="large"
-            rounded
-            title={user.displayName && user.displayName[0]}
-            source={user.photoURL ? { uri: user.photoURL } : null}
-            showEditButton
-          />
-        </CenterView>
+        {fbUser && !fbUser.isAnonymous ? (
+          <NotAnonymous user={user} />
+        ) : (
+          <Anonymous user={user} />
+        )}
         <PaddingView>
-          <TextField
-            baseColor={theme.colors.lightAccent}
-            tintColor={theme.colors.lightAccent}
-            label={user.username ? user.username : "Anonymous username"}
-            value={displayNameInputValue}
-            onChangeText={name => setUsernameInputValue(name)}
-          />
-          <TextField
-            baseColor={theme.colors.lightAccent}
-            tintColor={theme.colors.lightAccent}
-            label={user.displayName ? user.displayName : "Anonymous Name"}
-            value={displayNameInputValue}
-            onChangeText={name => setDisplayNameInputValue(name)}
-          />
-          <TextField
-            baseColor={theme.colors.lightAccent}
-            tintColor={theme.colors.lightAccent}
-            label={user.email ? user.email : "Anonymous Email"}
-            value={emailInputValue}
-            onChangeText={email => setEmailInputValue(email)}
-          />
+          <Button title="Signout" onPress={() => logout()} />
         </PaddingView>
-        <Button title="Signout" onPress={() => logout()} />
       </PaddingView>
     </SafeWrapper>
   );

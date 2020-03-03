@@ -10,17 +10,19 @@ export const logout = () => {
 };
 
 // Calling the following function will open the FB login dialogue:
-export const facebookLogin = async () => {
+export const facebookLogin = async (convertUser = false) => {
   try {
-    const result = await LoginManager.logInWithPermissions([
-      "public_profile",
-      "email"
-    ]);
+    if (!convertUser) {
+      const result = await LoginManager.logInWithPermissions([
+        "public_profile",
+        "email"
+      ]);
 
-    if (result.isCancelled) {
-      // handle this however suites the flow of your app
-      console.warn("User cancelled request");
-      return null;
+      if (result.isCancelled) {
+        // handle this however suites the flow of your app
+        console.warn("User cancelled request");
+        return null;
+      }
     }
 
     // get the access token
@@ -38,10 +40,24 @@ export const facebookLogin = async () => {
     );
 
     // login with credential
-    const firebaseUserCredential = await firebase
-      .auth()
-      .signInWithCredential(credential);
-    prepareDataForUpdate(firebaseUserCredential.user);
+    const firebaseUserCredential = convertUser
+      ? await firebase.auth().currentUser.linkWithCredential(credential)
+      : await firebase.auth().signInWithCredential(credential);
+
+    if (convertUser) {
+      const {
+        displayName,
+        photoURL,
+        email
+      } = firebaseUserCredential.user.providerData[0];
+
+      await updateProfile({ displayName, photoURL, email });
+    }
+    const userData = convertUser
+      ? firebase.auth().currentUser
+      : firebaseUserCredential.user;
+
+    await prepareDataForUpdate(userData, false, false, convertUser);
 
     return firebaseUserCredential;
   } catch (e) {
@@ -49,12 +65,21 @@ export const facebookLogin = async () => {
   }
 };
 
+export const updateProfile = async userData => {
+  try {
+    await firebase.auth().currentUser.updateProfile(userData);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const anonymousLogin = async () => {
   try {
     const firebaseUserCredential = await firebase.auth().signInAnonymously();
     prepareDataForUpdate(firebaseUserCredential.user, false, true);
-  } catch (error) {}
-  console.error(error);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const emailLogin = async (email, password) => {
@@ -153,10 +178,11 @@ const controlUsername = async username => {
 const prepareDataForUpdate = async (
   userData,
   generateFromEmail = false,
-  anonymous = false
+  anonymous = false,
+  forceUpdate = false
 ) => {
   const userExist = await checkIfUserExists(userData.uid);
-  if (!userExist) {
+  if (!userExist || forceUpdate) {
     if (!anonymous) {
       const { displayName, email, photoURL, uid } = userData;
       const username = await generateFromNameOrEmail(

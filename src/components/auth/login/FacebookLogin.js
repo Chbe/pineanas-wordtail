@@ -3,9 +3,9 @@ import { facebookLogin } from "../AuthFunctions";
 import { Button } from "react-native-elements";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
-const FacebookLogin = ({ navigation }) => {
+const FacebookLogin = ({ convertUser = false }) => {
   const handleLogin = async () => {
-    await facebookLogin();
+    await facebookLogin(convertUser);
   };
   return (
     <Button
@@ -19,7 +19,7 @@ const FacebookLogin = ({ navigation }) => {
       }
       onPress={handleLogin}
       buttonStyle={{ backgroundColor: "#3b5998" }}
-      title="Continue with Facebook"
+      title={`${convertUser ? "Link" : "Continue"} with Facebook`}
     />
   );
 };
