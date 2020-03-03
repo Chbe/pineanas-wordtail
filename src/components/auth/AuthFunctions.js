@@ -73,7 +73,7 @@ export const updateProfile = async userData => {
 };
 
 const getProviderDataByName = (data, providerName) => {
-  return data.filter(p => p.providerId === providerName);
+  return data.find(p => p.providerId === providerName);
 };
 
 export const anonymousLogin = async () => {
