@@ -3,13 +3,13 @@ import {
   SafeWrapper,
   PaddingView
 } from "../../components/ui/containers/Containers";
-import { Text, withTheme, Button } from "react-native-elements";
+import { Text, withTheme, Button, Badge } from "react-native-elements";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import GamesList from "../../components/game/game-list/GamesList";
 import firebase from "@react-native-firebase/app";
 
 const HomePage = ({ navigation, theme }) => {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({});
 
   navigation.setOptions({
     headerLeft: () => (
@@ -20,6 +20,14 @@ const HomePage = ({ navigation, theme }) => {
           name="user-cog"
           onPress={() => navigation.navigate("Profile")}
         />
+        {user.isAnonymous && (
+          <Badge
+            status="error"
+            value="!"
+            textStyle={{ fontWeight: "bold" }}
+            containerStyle={{ position: "absolute", right: 5 }}
+          />
+        )}
       </PaddingView>
     ),
     headerRight: () => (

@@ -12,12 +12,22 @@ import TextField from "../../components/ui/controls/inputs/floating/FloatingInpu
 
 const ProfilePage = ({ theme }) => {
   const [user, setUser] = useState({});
-  const [displayNameInputValue, setDisplayNameInputValue] = useState('');
-  const [emailInputValue, setEmailInputValue] = useState('');
+  const [usernameInputValue, setUsernameInputValue] = useState("");
+  const [displayNameInputValue, setDisplayNameInputValue] = useState("");
+  const [emailInputValue, setEmailInputValue] = useState("");
+
+  const setUserInfo = async () => {
+    const uid = firebase.auth().currentUser.uid;
+    const user = await firebase
+      .firestore()
+      .doc(`users/${uid}`)
+      .get();
+
+    setUser(user.exists ? user.data() : {});
+  };
 
   useEffect(() => {
-    const { currentUser } = firebase.auth();
-    setUser(currentUser);
+    setUserInfo();
     return () => {
       //
     };
@@ -25,7 +35,6 @@ const ProfilePage = ({ theme }) => {
 
   return (
     <SafeWrapper bg={theme.colors.lightShade}>
-      {/* <GenerateExampleGames /> */}
       <PaddingView>
         <CenterView>
           <Avatar
@@ -36,12 +45,14 @@ const ProfilePage = ({ theme }) => {
             showEditButton
           />
         </CenterView>
-        <PaddingView
-          style={{
-            margin: 10,
-            borderRadius: 10
-          }}
-        >
+        <PaddingView>
+          <TextField
+            baseColor={theme.colors.lightAccent}
+            tintColor={theme.colors.lightAccent}
+            label={user.username ? user.username : "Anonymous username"}
+            value={displayNameInputValue}
+            onChangeText={name => setUsernameInputValue(name)}
+          />
           <TextField
             baseColor={theme.colors.lightAccent}
             tintColor={theme.colors.lightAccent}
