@@ -45,11 +45,10 @@ export const facebookLogin = async (convertUser = false) => {
       : await firebase.auth().signInWithCredential(credential);
 
     if (convertUser) {
-      const {
-        displayName,
-        photoURL,
-        email
-      } = firebaseUserCredential.user.providerData[0];
+      const { displayName, photoURL, email } = getProviderDataByName(
+        firebaseUserCredential.user.providerData,
+        "facebook.com"
+      );
 
       await updateProfile({ displayName, photoURL, email });
     }
@@ -71,6 +70,10 @@ export const updateProfile = async userData => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const getProviderDataByName = (data, providerName) => {
+  return data.filter(p => p.providerId === providerName);
 };
 
 export const anonymousLogin = async () => {
