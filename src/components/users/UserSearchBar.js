@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import firebase from "@react-native-firebase/app";
 import _ from "lodash";
 import { SearchBar } from "react-native-elements";
@@ -48,6 +48,7 @@ const UserSearchBar = () => {
   return (
     <View>
       <SearchBar
+        platform={Platform.OS}
         placeholder="Search user"
         autoCompleteType="off"
         autoCorrect={false}
