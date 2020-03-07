@@ -11,7 +11,6 @@ export const logout = () => {
 };
 
 const handleErros = (error = "") => {
-  console.log(error.message);
   if (error.hasOwnProperty("code")) {
     if (error.namespace === "auth") {
       return handleAuthError(error.message);
@@ -103,12 +102,13 @@ export const anonymousLogin = async () => {
   }
 };
 
-export const emailLogin = async (email, password) => {
+export const emailLogin = async (email, password, register = false) => {
   try {
-    const firebaseUserCredential = await firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password);
-    prepareDataForUpdate(firebaseUserCredential.user, true);
+    const firebaseUserCredential = register
+      ? await firebase.auth().createUserWithEmailAndPassword(email, password)
+      : await firebase.auth().signInWithEmailAndPassword(email, password);
+
+    register && prepareDataForUpdate(firebaseUserCredential.user, true);
     return firebaseUserCredential;
   } catch (error) {
     // console.error('catch', error);
@@ -215,7 +215,7 @@ const prepareDataForUpdate = async (
     if (!anonymous) {
       const { displayName, email, photoURL, uid } = userData;
       const username = await generateFromNameOrEmail(
-        displayName,
+        generateFromEmail ? email : displayName,
         generateFromEmail
       );
       updateUserData({ displayName, email, photoURL, uid, username });

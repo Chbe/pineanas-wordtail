@@ -6,6 +6,7 @@ import { View } from "react-native";
 
 const EmailLogin = ({ theme }) => {
   const inputRef = createRef();
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -13,11 +14,10 @@ const EmailLogin = ({ theme }) => {
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [passwordError2, setPasswordError2] = useState("");
   const [errorMessages, setErrorMessages] = useState("");
 
   const validate = () => {
-    setEmailError("");
-    setPasswordError("");
     if (!email.length) {
       setEmailError("Unvalid email");
     }
@@ -25,23 +25,29 @@ const EmailLogin = ({ theme }) => {
       setPasswordError("Password must contain 6 or more characters");
     }
     if (registration && password !== password2) {
-      setPasswordError("Passwords don't match");
+      setPasswordError2("Passwords don't match");
     }
 
-    if (!emailError.length || !passwordError.length) {
-      return false;
+    if (!emailError.length || !passwordError.length || !passwordError2.length) {
+      return true;
     }
-    return true;
+    return false;
   };
 
   const submit = async () => {
+    setLoading(true);
     setErrorMessages("");
+    setEmailError("");
+    setPasswordError("");
+    setPasswordError2("");
+
     if (validate() === true) {
-      const res = await emailLogin(email, password);
+      const res = await emailLogin(email, password, registration);
       if (res.hasOwnProperty("error")) {
         setErrorMessages(res.msg.trim());
       }
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -88,7 +94,14 @@ const EmailLogin = ({ theme }) => {
       </PaddingView>
       {registration && (
         <PaddingView padding={10}>
-          <Input placeholder="Confirm password" secureTextEntry />
+          <Input
+            placeholder="Confirm password"
+            secureTextEntry
+            autoCompleteType="password"
+            errorMessage={passwordError2}
+            onChangeText={txt => setPassword2(txt)}
+            value={password2}
+          />
         </PaddingView>
       )}
       <PaddingView padding={10}>
@@ -107,6 +120,7 @@ const EmailLogin = ({ theme }) => {
       <PaddingView padding={10}>
         <Button
           title={registration ? "Register with email" : "Sign in with email"}
+          loading={loading}
           onPress={submit}
         />
       </PaddingView>
