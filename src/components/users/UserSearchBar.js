@@ -4,6 +4,7 @@ import firebase from "@react-native-firebase/app";
 import _ from "lodash";
 import { SearchBar } from "react-native-elements";
 import ListOfUsers from "./ListOfUsers";
+import { minUsernameLength } from "../../const/Const";
 
 const UserSearchBar = () => {
   const usersRef = firebase
@@ -22,10 +23,11 @@ const UserSearchBar = () => {
   const delayedQuery = useRef(_.debounce(text => doSearch(text), 400)).current;
 
   const doSearch = async (searchString = "") => {
-    if (searchString.length > 4) {
+    if (searchString.length > minUsernameLength - 1) {
       setIsSearching(true);
       const querySnapshot = await usersRef
-        .where("username", ">=", searchString)
+        .where("username", "==", searchString)
+        .limit(3)
         .get();
 
       setUsersList(

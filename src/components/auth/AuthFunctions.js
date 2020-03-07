@@ -1,5 +1,6 @@
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import firebase from "@react-native-firebase/app";
+import { minUsernameLength } from "../../const/Const";
 
 export const logout = () => {
   try {
@@ -7,6 +8,23 @@ export const logout = () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const handleErros = (error = "") => {
+  console.log(error.message);
+  if (error.hasOwnProperty("code")) {
+    if (error.namespace === "auth") {
+      return handleAuthError(error.message);
+    } else {
+      alert(error.namespace);
+    }
+  }
+};
+
+const handleAuthError = error => {
+  const errorObj = { error: true, msg: "" };
+  errorObj.msg = error.replace(/ *\[[^\]]*]/, "");
+  return errorObj;
 };
 
 // Calling the following function will open the FB login dialogue:
@@ -87,13 +105,14 @@ export const anonymousLogin = async () => {
 
 export const emailLogin = async (email, password) => {
   try {
-    const firebaseUserCredential = firebase
+    const firebaseUserCredential = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
     prepareDataForUpdate(firebaseUserCredential.user, true);
     return firebaseUserCredential;
   } catch (error) {
-    console.error(error);
+    // console.error('catch', error);
+    return handleErros(error);
   }
 };
 
@@ -133,6 +152,13 @@ const generateFromNameOrEmail = async (
       username += 1;
     }
   }
+  if (username.length < minUsernameLength) {
+    const diff = 5 - username.length;
+    for (let i = 0; i < diff; i++) {
+      username += i;
+    }
+  }
+
   return username;
 };
 

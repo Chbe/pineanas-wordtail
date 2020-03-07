@@ -19,6 +19,7 @@ import {
 } from "../../services/game/GameService";
 import Modal from "react-native-modal";
 import Spinner from "../../components/ui/controls/spinner/Spinner";
+import { maxMarks, alphabet } from "../../const/Const";
 
 const Wrapper = styled(CenterView)`
   justify-content: space-between;
@@ -41,40 +42,9 @@ const ModalContainer = styled(CenterView)`
 
 const GamePage = ({ route, navigation, theme }) => {
   const { state, actions } = GameStore();
-  const time = 25000;
-  const maxMarks = 5;
   const [game, setGame] = useState({});
   const [currentUid, setUid] = useState("");
   const [calling, setCalling] = useState(false);
-
-  const alphabet = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z"
-  ];
 
   const [spinnerIsVisable, setSpinnerVisable] = useState(false);
   const [modalIsVisable, setModalVisable] = useState(false);

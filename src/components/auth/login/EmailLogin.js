@@ -1,45 +1,116 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, createRef } from "react";
 import { emailLogin } from "../AuthFunctions";
-import { Button } from "react-native-elements";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import Modal from "react-native-modal";
-import EmailModal from "./EmailModal";
+import { Button, Input, Text } from "react-native-elements";
+import { PaddingView } from "../../ui/containers/Containers";
+import { View } from "react-native";
 
 const EmailLogin = ({ theme }) => {
-  const [modalIsVisable, setModalVisable] = useState(false);
+  const inputRef = createRef();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [registration, setRegistration] = useState(false);
 
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [errorMessages, setErrorMessages] = useState("");
+
+  const validate = () => {
+    setEmailError("");
+    setPasswordError("");
+    if (!email.length) {
+      setEmailError("Unvalid email");
+    }
+    if (password.length < 6) {
+      setPasswordError("Password must contain 6 or more characters");
+    }
+    if (registration && password !== password2) {
+      setPasswordError("Passwords don't match");
+    }
+
+    if (!emailError.length || !passwordError.length) {
+      return false;
+    }
+    return true;
+  };
+
+  const submit = async () => {
+    setErrorMessages("");
+    if (validate() === true) {
+      const res = await emailLogin(email, password);
+      if (res.hasOwnProperty("error")) {
+        setErrorMessages(res.msg.trim());
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+    return () => {};
+  }, []);
   return (
-    <>
-      <Button
-        icon={
-          <FontAwesome5Icon
-            style={{ marginRight: 10 }}
-            color={"white"}
-            size={24}
-            name="envelope"
-          />
-        }
-        onPress={() => setModalVisable(true)}
-        buttonStyle={{ backgroundColor: "#ff8c0f" }}
-        title={`Continue with email`}
-      />
-      <Modal
-        isVisible={modalIsVisable}
-        backdropColor={theme.colors.primary}
-        backdropOpacity={0.8}
-        animationIn="zoomInDown"
-        animationOut="zoomOutUp"
-        animationInTiming={600}
-        animationOutTiming={600}
-        backdropTransitionInTiming={600}
-        backdropTransitionOutTiming={600}
-        onBackdropPress={() => setModalVisable(false)}
-        onSwipeComplete={() => setModalVisable(false)}
-        swipeDirection={["left", "right"]}
-      >
-        <EmailModal theme={theme} />
-      </Modal>
-    </>
+    <View>
+      <PaddingView padding={20}>
+        {!!errorMessages.length && (
+          <Text
+            style={{
+              backgroundColor: theme.colors.danger,
+              color: "#fff",
+              padding: 10
+            }}
+            onPress={() => setErrorMessages("")}
+          >
+            {errorMessages}
+          </Text>
+        )}
+      </PaddingView>
+      <PaddingView padding={10}>
+        <Input
+          autoCapitalize="none"
+          ref={inputRef}
+          placeholder="Email"
+          autoCompleteType="email"
+          keyboardType="email-address"
+          errorMessage={emailError}
+          onChangeText={txt => setEmail(txt)}
+          value={email}
+        />
+      </PaddingView>
+      <PaddingView padding={10}>
+        <Input
+          placeholder="Password"
+          secureTextEntry
+          autoCompleteType="password"
+          errorMessage={passwordError}
+          onChangeText={txt => setPassword(txt)}
+          value={password}
+        />
+      </PaddingView>
+      {registration && (
+        <PaddingView padding={10}>
+          <Input placeholder="Confirm password" secureTextEntry />
+        </PaddingView>
+      )}
+      <PaddingView padding={10}>
+        <Button
+          type="clear"
+          title={
+            registration
+              ? "I already have an account"
+              : "I don't have an account"
+          }
+          onChangeText={txt => setPassword2(txt)}
+          value={password2}
+          onPress={() => setRegistration(!registration)}
+        />
+      </PaddingView>
+      <PaddingView padding={10}>
+        <Button
+          title={registration ? "Register with email" : "Sign in with email"}
+          onPress={submit}
+        />
+      </PaddingView>
+    </View>
   );
 };
 
