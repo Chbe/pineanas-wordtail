@@ -5,6 +5,7 @@ import {
   PaddingView
 } from "../../../components/ui/containers/Containers";
 import TextField from "../../../components/ui/controls/inputs/floating/FloatingInput";
+import ImageUploader from "../../../components/image-uploader/ImageUploader";
 
 const NotAnonymous = ({ user, theme }) => {
   const [displayNameInputValue, setDisplayNameInputValue] = useState("");
@@ -33,13 +34,7 @@ const NotAnonymous = ({ user, theme }) => {
   return (
     <>
       <CenterView>
-        <Avatar
-          size="large"
-          rounded
-          title={user.displayName && user.displayName[0]}
-          source={user.photoURL ? { uri: user.photoURL } : null}
-          showEditButton
-        />
+        <ImageUploader user={user} />
       </CenterView>
       <PaddingView>
         <TextField

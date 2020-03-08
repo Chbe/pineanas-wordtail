@@ -15,6 +15,7 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import firebase from "@react-native-firebase/app";
 import "@react-native-firebase/auth";
 import "@react-native-firebase/firestore";
+import "@react-native-firebase/storage";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
