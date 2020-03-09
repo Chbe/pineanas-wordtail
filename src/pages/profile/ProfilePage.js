@@ -4,11 +4,8 @@ import { logout } from "../../components/auth/AuthFunctions";
 import firebase from "@react-native-firebase/app";
 import {
   SafeWrapper,
-  PaddingView,
-  CenterView
+  PaddingView
 } from "../../components/ui/containers/Containers";
-import { View } from "react-native";
-import TextField from "../../components/ui/controls/inputs/floating/FloatingInput";
 import NotAnonymous from "./not-anonymous/NotAnonymous";
 import Anonymous from "./anonymous/Anonymous";
 

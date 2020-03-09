@@ -48,7 +48,7 @@ const LetterBox = ({letters = [], theme, calling = false}) => {
       startAnimation();
     }
     return () => {
-      // Why dafaq does this line make GamePage crash...?
+      // TODO: Why dafaq does this line make GamePage crash...?
       // actions.clear();
       if (intervalHandler) {
         clearInterval(intervalHandler);

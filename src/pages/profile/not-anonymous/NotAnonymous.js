@@ -5,9 +5,13 @@ import {
   PaddingView
 } from "../../../components/ui/containers/Containers";
 import TextField from "../../../components/ui/controls/inputs/floating/FloatingInput";
-import ImageUploader from "../../../components/image-uploader/ImageUploader";
+import EditableAvatar from "../../../components/editable-avatar/EditableAvatar";
+import { ProfileStore } from "../../../stores/ProfileStore";
+import { uploadPhoto } from "../../../services/firebase/storage/FBStorageService";
 
 const NotAnonymous = ({ user, theme }) => {
+  const { state, actions } = ProfileStore();
+
   const [displayNameInputValue, setDisplayNameInputValue] = useState("");
   const [emailInputValue, setEmailInputValue] = useState("");
   const [usernameInputValue, setUsernameInputValue] = useState("");
@@ -24,17 +28,29 @@ const NotAnonymous = ({ user, theme }) => {
     return false;
   };
 
+  const saveData = () => {
+    console.log(state);
+    if (state.photoURL.length) {
+      uploadPhoto(state.photoURL);
+    }
+  };
+
   useEffect(() => {
-    setDisplayNameInputValue("fitta");
     return () => {
-      console.log(dataHaveChanged());
+      saveData();
+    };
+  }, [state]);
+
+  useEffect(() => {
+    return () => {
+      actions.clear();
     };
   }, []);
 
   return (
     <>
       <CenterView>
-        <ImageUploader user={user} />
+        <EditableAvatar actions={actions} user={user} />
       </CenterView>
       <PaddingView>
         <TextField

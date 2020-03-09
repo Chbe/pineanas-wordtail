@@ -1,18 +1,18 @@
 import { useState, useContext, useMemo, createContext } from "react";
 
 const initialState = {
-  letter: "",
-  completeWord: "",
-  enablePlay: false,
-  timesup: false
+  username: "",
+  photoURL: "",
+  displayName: "",
+  email: ""
 };
 
-const GameContext = createContext({});
+const ProfileContext = createContext({});
 /**
  * Our custom React hook to manage state
  */
 
-const GameStore = () => {
+const ProfileStore = () => {
   // Manage the state using React.useState()
   const [state, setState] = useState(initialState);
 
@@ -28,27 +28,26 @@ const GameStore = () => {
 // functions.
 const getActions = setState => ({
   clear: () => {
+    console.log("clear");
     setState(state => ({ ...state, initialState }));
   },
-  setLetter: payload => {
-    setState(state => ({ ...state, letter: payload }));
+  setUsername: payload => {
+    setState(state => ({ ...state, username: payload }));
   },
-  setCompleteWord: payload => {
-    setState(state => ({ ...state, completeWord: payload }));
+  setPhotoUrl: payload => {
+    console.log("setPhptoUrl");
+    setState(state => ({ ...state, photoURL: payload }));
   },
-  enablePlay: () => {
-    setState(state => ({ ...state, enablePlay: true }));
+  setDisplayName: payload => {
+    setState(state => ({ ...state, displayName: payload }));
   },
-  disablePlay: () => {
-    setState(state => ({ ...state, enablePlay: false }));
-  },
-  setTimesup: () => {
-    setState(state => ({ ...state, timesup: true }));
+  setEmail: payload => {
+    setState(state => ({ ...state, email: payload }));
   }
 });
 
-const useGameContext = () => {
-  return useContext(GameContext);
+const useProfileContext = () => {
+  return useContext(ProfileContext);
 };
 
-export { GameContext, GameStore, useGameContext };
+export { ProfileContext, ProfileStore, useProfileContext };

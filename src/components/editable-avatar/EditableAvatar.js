@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ImagePicker from "react-native-image-picker";
 import { Avatar } from "react-native-elements";
 
-const ImageUploader = ({ user }) => {
-  const [photoUri, setPhotoUri] = useState(null);
+const EditableAvatar = ({ user, actions }) => {
   const [photoUrl, setPhotoUrl] = useState(null);
 
   const options = {
     title: "Change avatar",
     mediaType: "photo",
+    quality: 0,
     storageOptions: {
       skipBackup: true,
       path: "images"
@@ -20,11 +20,9 @@ const ImageUploader = ({ user }) => {
       console.log("Response = ", response);
       if (response.error) {
         console.error("ImagePicker Error: ", response.error);
-      } else {
-        const source = { uri: "data:image/jpeg;base64," + response.data };
-        setPhotoUri(source);
+      } else if (response.data) {
         setPhotoUrl(response.uri);
-        setPhotoChanged(true);
+        actions.setPhotoUrl(response.data);
       }
     });
   };
@@ -47,4 +45,4 @@ const ImageUploader = ({ user }) => {
   );
 };
 
-export default ImageUploader;
+export default EditableAvatar;
