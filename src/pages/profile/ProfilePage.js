@@ -40,7 +40,7 @@ const ProfilePage = ({ theme }) => {
           <Anonymous user={user} />
         )}
         <PaddingView>
-          <Button title="Signout" onPress={() => logout()} />
+          <Button title="Signout" type="clear" onPress={() => logout()} />
         </PaddingView>
       </PaddingView>
     </SafeWrapper>

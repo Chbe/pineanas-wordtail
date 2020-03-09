@@ -9,6 +9,7 @@ const EditableAvatar = ({ user, actions }) => {
     title: "Change avatar",
     mediaType: "photo",
     quality: 0,
+    customButtons: [{ name: "clear", title: "Keep current avatar" }],
     storageOptions: {
       skipBackup: true,
       path: "images"
@@ -20,6 +21,9 @@ const EditableAvatar = ({ user, actions }) => {
       console.log("Response = ", response);
       if (response.error) {
         console.error("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        actions.setPhotoUrl("");
+        setPhotoUrl("");
       } else if (response.data) {
         setPhotoUrl(response.uri);
         actions.setPhotoUrl(response.data);

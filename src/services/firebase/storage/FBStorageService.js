@@ -6,7 +6,11 @@ export const uploadPhoto = async photo => {
   const userPhotoRef = storageRef.child(`${uid}/avatar`);
 
   try {
-    await userPhotoRef.putString(photo, "base64");
+    await userPhotoRef.putString(photo, "base64", {
+      contentType: "image/jpeg"
+    });
+    const downloadUrl = await userPhotoRef.getDownloadURL();
+    return downloadUrl;
   } catch (error) {
     console.error(error);
   }
