@@ -10,12 +10,33 @@ import {
 } from '../../services/firebase/auth/FBAuthService';
 
 import Anonymous from './anonymous/Anonymous';
+import { Confirm } from '../../components/ui/controls/alert/Confirm';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import NotAnonymous from './not-anonymous/NotAnonymous';
 import { getUserRef } from '../../services/firebase/firestore/FBFirestoreService';
 
-const ProfilePage = ({ theme }) => {
+const ProfilePage = ({ navigation, theme }) => {
   const [user, setUser] = useState({});
   const [fbUser, setFbUser] = useState({});
+
+  navigation.setOptions({
+    headerRight: () => (
+      <PaddingView>
+        <FontAwesome5Icon
+          color={theme.barStyle === 'light-content' ? '#fff' : '#000'}
+          size={24}
+          name="sign-out-alt"
+          onPress={async () => {
+            const doSignOut = await Confirm(
+              'Sign out',
+              'Are you sure you want to sign out?'
+            );
+            doSignOut && logout();
+          }}
+        />
+      </PaddingView>
+    ),
+  });
 
   const setUserInfo = async querySnapshot => {
     setFbUser(getCurrentUser());
@@ -40,9 +61,6 @@ const ProfilePage = ({ theme }) => {
         ) : (
           <Anonymous user={user} />
         )}
-        <PaddingView>
-          <Button title="Signout" type="clear" onPress={() => logout()} />
-        </PaddingView>
       </PaddingView>
     </SafeWrapper>
   );
