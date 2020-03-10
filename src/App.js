@@ -29,75 +29,73 @@ import firebase from '@react-native-firebase/app';
 import { getTheme } from './core/Themes';
 
 const App = () => {
-    // Set an initializing state whilst Firebase connects
-    const [initializing, setInitializing] = useState(true);
-    const [user, setUser] = useState();
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
 
-    const theme = getTheme('Shamrock');
+  const theme = getTheme('Shamrock');
 
-    const Stack = createStackNavigator();
+  const Stack = createStackNavigator();
 
-    const homeHeaderOptions = {
-        headerStyle: { backgroundColor: theme.colors.primary },
-        headerTitle: '',
-        headerTintColor: theme.barStyle === 'light-content' ? '#fff' : '#000',
-    };
+  const homeHeaderOptions = {
+    headerStyle: { backgroundColor: theme.colors.primary },
+    headerTitle: '',
+    headerTintColor: theme.barStyle === 'light-content' ? '#fff' : '#000',
+  };
 
-    const onAuthStateChanged = user => {
-        setUser(user);
-        if (initializing) setInitializing(false);
-    };
+  const onAuthStateChanged = user => {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  };
 
-    useEffect(() => {
-        const subscriber = firebase
-            .auth()
-            .onAuthStateChanged(onAuthStateChanged);
-        return subscriber; // unsubscribe on unmount
-    }, []);
+  useEffect(() => {
+    const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
 
-    if (initializing) {
-        return (
-            <ThemeProvider theme={theme}>
-                <SplashScreen />
-            </ThemeProvider>
-        );
-    }
-
+  if (initializing) {
     return (
-        <ThemeProvider theme={theme}>
-            <NavigationContainer>
-                <Stack.Navigator>
-                    {!user ? (
-                        <Stack.Screen name="Login" component={LoginPage} />
-                    ) : (
-                        <>
-                            <Stack.Screen
-                                name="Home"
-                                component={HomePage}
-                                // component={GenerateExampleGames}
-                                options={homeHeaderOptions}
-                            />
-                            <Stack.Screen
-                                name="CreateGame"
-                                component={CreateGamePage}
-                                options={homeHeaderOptions}
-                            />
-                            <Stack.Screen
-                                name="Game"
-                                component={GamePage}
-                                options={homeHeaderOptions}
-                            />
-                            <Stack.Screen
-                                name="Profile"
-                                component={ProfilePage}
-                                options={homeHeaderOptions}
-                            />
-                        </>
-                    )}
-                </Stack.Navigator>
-            </NavigationContainer>
-        </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <SplashScreen />
+      </ThemeProvider>
     );
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {!user ? (
+            <Stack.Screen name="Login" component={LoginPage} />
+          ) : (
+            <>
+              <Stack.Screen
+                name="Home"
+                component={HomePage}
+                // component={GenerateExampleGames}
+                options={homeHeaderOptions}
+              />
+              <Stack.Screen
+                name="CreateGame"
+                component={CreateGamePage}
+                options={homeHeaderOptions}
+              />
+              <Stack.Screen
+                name="Game"
+                component={GamePage}
+                options={homeHeaderOptions}
+              />
+              <Stack.Screen
+                name="Profile"
+                component={ProfilePage}
+                options={homeHeaderOptions}
+              />
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
+  );
 };
 
 export default App;

@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {Animated} from 'react-native';
-import {PaddingView} from '../../../ui/containers/Containers';
-import {useAnimation} from './ProgressHook';
+import React, { useEffect, useState } from 'react';
+
+import { Animated } from 'react-native';
+import { PaddingView } from '../../../ui/containers/Containers';
 import styled from 'styled-components';
-import {useGameContext} from '../../../../stores/GameStore';
+import { useAnimation } from './ProgressHook';
+import { useGameContext } from '../../../../stores/GameStore';
 
 const Container = styled.View`
-  height: 30;
+  height: 30px;
   width: 100%;
   background-color: ${props =>
     props.gameStarted
@@ -14,16 +15,16 @@ const Container = styled.View`
       : 'transparent'};
 `;
 
-const ProgressBar = ({enablePlay, duration = 5000, theme}) => {
-  const {actions} = useGameContext();
+const ProgressBar = ({ enablePlay, duration = 5000, theme }) => {
+  const { actions } = useGameContext();
 
   const [endWidth, setWidth] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
-  const animation = useAnimation({enablePlay, endWidth, duration});
+  const animation = useAnimation({ enablePlay, endWidth, duration });
 
   const [progressColor, updateColor] = useState('success');
 
-  const manageColors = ({value}) => {
+  const manageColors = ({ value }) => {
     if (value > endWidth / 2 && value < endWidth * 0.85) {
       updateColor(() => 'warning');
     } else if (value >= endWidth * 0.85) {
@@ -48,13 +49,13 @@ const ProgressBar = ({enablePlay, duration = 5000, theme}) => {
   }, [enablePlay]);
 
   return (
-    <PaddingView style={{width: '100%'}}>
+    <PaddingView style={{ width: '100%' }}>
       <Container
         gameStarted={gameStarted}
         theme={theme}
         progressColor={progressColor}
         onLayout={event => {
-          const {width} = event.nativeEvent.layout;
+          const { width } = event.nativeEvent.layout;
           setWidth(width);
         }}>
         <Animated.View
@@ -65,7 +66,7 @@ const ProgressBar = ({enablePlay, duration = 5000, theme}) => {
             }),
             height: 30,
             backgroundColor: theme.colors.lightShade,
-            transform: [{translateX: animation}],
+            transform: [{ translateX: animation }],
           }}
         />
       </Container>

@@ -1,10 +1,10 @@
-import { useState, useContext, useMemo, createContext } from "react";
+import { createContext, useContext, useMemo, useState } from 'react';
 
 const initialState = {
-  letter: "",
-  completeWord: "",
+  letter: '',
+  completeWord: '',
   enablePlay: false,
-  timesup: false
+  timesup: false,
 };
 
 const GameContext = createContext({});
@@ -44,7 +44,7 @@ const getActions = setState => ({
   },
   setTimesup: () => {
     setState(state => ({ ...state, timesup: true }));
-  }
+  },
 });
 
 const useGameContext = () => {

@@ -1,13 +1,13 @@
-import { useState, useContext, useMemo, createContext } from "react";
+import { createContext, useContext, useMemo, useState } from 'react';
 
 const initialState = {
-  title: "",
-  status: "pending",
-  activePlayer: "",
-  admin: "",
+  title: '',
+  status: 'pending',
+  activePlayer: '',
+  admin: '',
   lastUpdated: 0,
   playersUid: [],
-  players: []
+  players: [],
 };
 
 const CreateGameContext = createContext({});
@@ -43,9 +43,9 @@ const getActions = setState => ({
     setState(state => ({
       ...state,
       players: payload,
-      playersUid: payload.map(p => p.uid)
+      playersUid: payload.map(p => p.uid),
     }));
-  }
+  },
 });
 
 const useCreateGameContext = () => {

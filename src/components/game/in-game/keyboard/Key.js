@@ -1,23 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import {useGameContext} from '../../../../stores/GameStore';
+import { useGameContext } from '../../../../stores/GameStore';
 
 const KeyContainer = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
-  height: 35;
-  width: 35;
+  height: 35px;
+  width: 35px;
   margin: 1px;
 `;
 
 const KeyText = styled.Text`
-  font-size: 30;
-  color: ${({enablePlay, colors}) =>
+  font-size: 30px;
+  color: ${({ enablePlay, colors }) =>
     enablePlay ? colors.lightAccent : colors.darkShade};
 `;
 
-const Key = ({name, theme}) => {
-  const {state, actions} = useGameContext();
+const Key = ({ name, theme }) => {
+  const { state, actions } = useGameContext();
   return (
     <KeyContainer
       disabled={!state.enablePlay}

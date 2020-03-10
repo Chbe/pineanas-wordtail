@@ -1,9 +1,10 @@
-import React, {useEffect, createRef} from 'react';
-import {Input} from 'react-native-elements';
-import {useGameContext} from '../../../../stores/GameStore';
+import React, { createRef, useEffect } from 'react';
 
-const WordInput = ({letters = ''}) => {
-  const {state, actions} = useGameContext();
+import { Input } from 'react-native-elements';
+import { useGameContext } from '../../../../stores/GameStore';
+
+const WordInput = ({ letters = '' }) => {
+  const { state, actions } = useGameContext();
   const input = createRef();
   let timeoutHandler;
 

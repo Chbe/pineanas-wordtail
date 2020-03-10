@@ -1,4 +1,4 @@
-import { wordsApiKey } from "../../environment/Config";
+import { wordsApiKey } from '../../environment/Config';
 
 export const getWordDetails = async word => {
   /** 400	Bad Request -- Your request is invalid.
@@ -22,16 +22,16 @@ export const getWordDetails = async word => {
   let resObj = {
     success: true,
     word,
-    partOfSpeech: "",
-    definition: "",
-    message: ""
+    partOfSpeech: '',
+    definition: '',
+    message: '',
   };
 
   try {
     let res = await fetch(url, {
       headers: {
-        "X-Mashape-Key": wordsApiKey
-      }
+        'X-Mashape-Key': wordsApiKey,
+      },
     });
 
     if (res.status === 200) {
@@ -119,7 +119,7 @@ export const prepareAlertForBustResult = (
       ? `${wordDefintions.word}: ${wordDefintions.definition}`
       : wordDefintions.message,
     instructions,
-    buttons: [`${wordDefintions.success ? "I knew it!" : "Darn it..."}`]
+    buttons: [`${wordDefintions.success ? 'I knew it!' : 'Darn it...'}`],
   };
 };
 

@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { withTheme, Button, Avatar, Text } from "react-native-elements";
+import { Avatar, Button, Text, withTheme } from 'react-native-elements';
 import {
+  PaddingView,
   SafeWrapper,
-  PaddingView
-} from "../../components/ui/containers/Containers";
-import NotAnonymous from "./not-anonymous/NotAnonymous";
-import Anonymous from "./anonymous/Anonymous";
+} from '../../components/ui/containers/Containers';
+import React, { useEffect, useState } from 'react';
 import {
+  getCurrentUser,
   logout,
-  getCurrentUser
-} from "../../services/firebase/auth/FBAuthService";
-import { getUserRef } from "../../services/firebase/firestore/FBFirestoreService";
+} from '../../services/firebase/auth/FBAuthService';
+
+import Anonymous from './anonymous/Anonymous';
+import NotAnonymous from './not-anonymous/NotAnonymous';
+import { getUserRef } from '../../services/firebase/firestore/FBFirestoreService';
 
 const ProfilePage = ({ theme }) => {
   const [user, setUser] = useState({});

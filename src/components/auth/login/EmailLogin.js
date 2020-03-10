@@ -1,28 +1,29 @@
-import React, { useState, useEffect, createRef } from "react";
-import { Button, Input, Text } from "react-native-elements";
-import { PaddingView } from "../../ui/containers/Containers";
-import { View } from "react-native";
-import { emailLogin } from "../../../services/firebase/auth/FBAuthService";
+import { Button, Input, Text } from 'react-native-elements';
+import React, { createRef, useEffect, useState } from 'react';
+
+import { PaddingView } from '../../ui/containers/Containers';
+import { View } from 'react-native';
+import { emailLogin } from '../../../services/firebase/auth/FBAuthService';
 
 const EmailLogin = ({ theme }) => {
   const inputRef = createRef();
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
   const [registration, setRegistration] = useState(false);
 
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [passwordError2, setPasswordError2] = useState("");
-  const [errorMessages, setErrorMessages] = useState("");
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordError2, setPasswordError2] = useState('');
+  const [errorMessages, setErrorMessages] = useState('');
 
   const validate = () => {
     if (!email.length) {
-      setEmailError("Unvalid email");
+      setEmailError('Unvalid email');
     }
     if (password.length < 6) {
-      setPasswordError("Password must contain 6 or more characters");
+      setPasswordError('Password must contain 6 or more characters');
     }
     if (registration && password !== password2) {
       setPasswordError2("Passwords don't match");
@@ -36,14 +37,14 @@ const EmailLogin = ({ theme }) => {
 
   const submit = async () => {
     setLoading(true);
-    setErrorMessages("");
-    setEmailError("");
-    setPasswordError("");
-    setPasswordError2("");
+    setErrorMessages('');
+    setEmailError('');
+    setPasswordError('');
+    setPasswordError2('');
 
     if (validate() === true) {
       const res = await emailLogin(email, password, registration);
-      if (res.hasOwnProperty("error")) {
+      if (res.hasOwnProperty('error')) {
         setErrorMessages(res.msg.trim());
       }
     }
@@ -61,11 +62,10 @@ const EmailLogin = ({ theme }) => {
           <Text
             style={{
               backgroundColor: theme.colors.danger,
-              color: "#fff",
-              padding: 10
+              color: '#fff',
+              padding: 10,
             }}
-            onPress={() => setErrorMessages("")}
-          >
+            onPress={() => setErrorMessages('')}>
             {errorMessages}
           </Text>
         )}
@@ -109,7 +109,7 @@ const EmailLogin = ({ theme }) => {
           type="clear"
           title={
             registration
-              ? "I already have an account"
+              ? 'I already have an account'
               : "I don't have an account"
           }
           onChangeText={txt => setPassword2(txt)}
@@ -119,7 +119,7 @@ const EmailLogin = ({ theme }) => {
       </PaddingView>
       <PaddingView padding={10}>
         <Button
-          title={registration ? "Register with email" : "Sign in with email"}
+          title={registration ? 'Register with email' : 'Sign in with email'}
           loading={loading}
           onPress={submit}
         />

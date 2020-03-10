@@ -1,14 +1,15 @@
-import React from "react";
-import { Text, withTheme } from "react-native-elements";
-import { PaddingView } from "../../ui/containers/Containers";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import styled from "styled-components";
+import { Text, withTheme } from 'react-native-elements';
+
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { PaddingView } from '../../ui/containers/Containers';
+import React from 'react';
+import styled from 'styled-components';
 
 const SectionView = styled(PaddingView)`
   flex-direction: row;
   align-items: center;
-  margin-top: 20;
-  margin-bottom: 10;
+  margin-top: 20px;
+  margin-bottom: 10px;
 `;
 // background-color: ${props => props.bg};
 
@@ -22,29 +23,29 @@ const ColoredText = styled(Text)`
 `;
 
 const SectionHeader = ({ section: { type, data }, theme }) => {
-  const textColor = theme.barStyle === "light-content" ? "#fff" : "#000";
+  const textColor = theme.barStyle === 'light-content' ? '#fff' : '#000';
   const length = data.length;
-  if (type === "invite")
+  if (type === 'invite')
     return (
       <SectionView>
         <SectionIcon
           color={theme.colors.darkShade}
           size={24}
-          name={"envelope"}
+          name={'envelope'}
           regular
         />
         <ColoredText textColor={theme.colors.darkShade}>
-          {length === 1 ? "New invite" : "New invites"}
+          {length === 1 ? 'New invite' : 'New invites'}
         </ColoredText>
       </SectionView>
     );
-  else if (type === "active")
+  else if (type === 'active')
     return (
       <SectionView bg={theme.colors.lightShade}>
         <SectionIcon
           color={theme.colors.darkShade}
           size={24}
-          name={"gamepad"}
+          name={'gamepad'}
           regular
         />
         <ColoredText textColor={theme.colors.darkShade}>
@@ -52,13 +53,13 @@ const SectionHeader = ({ section: { type, data }, theme }) => {
         </ColoredText>
       </SectionView>
     );
-  else if (type === "finished")
+  else if (type === 'finished')
     return (
       <SectionView>
         <SectionIcon
           color={theme.colors.darkShade}
           size={24}
-          name={"flag-checkered"}
+          name={'flag-checkered'}
           regular
         />
         <ColoredText textColor={theme.colors.darkShade}>Finished</ColoredText>

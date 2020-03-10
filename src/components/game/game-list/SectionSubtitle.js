@@ -1,7 +1,7 @@
-import React from "react";
-import { Text } from "react-native-elements";
-import { View } from "react-native";
-import styled from "styled-components";
+import React from 'react';
+import { Text } from 'react-native-elements';
+import { View } from 'react-native';
+import styled from 'styled-components';
 const appendZero = value => {
   return value < 10 ? `0${value}` : value;
 };
@@ -26,9 +26,9 @@ const SectionSubtitle = ({ item, theme }) => {
   return (
     <View>
       <TextParagraph status={item.status} theme={theme}>
-        {item.status === "active" || item.status === "calling"
+        {item.status === 'active' || item.status === 'calling'
           ? formatDate(item.lastUpdated)
-          : "Waiting for players..."}
+          : 'Waiting for players...'}
       </TextParagraph>
     </View>
   );

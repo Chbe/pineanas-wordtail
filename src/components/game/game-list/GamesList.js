@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { SectionList, View } from "react-native";
-import { ListItem, Text, withTheme } from "react-native-elements";
-import SectionHeader from "./SectionHeader";
-import SectionSubtitle from "./SectionSubtitle";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import NoGames from "../no-game/NoGames";
-import InviteModal from "../invite/InviteModal";
-import Modal from "react-native-modal";
-import { getUserGamesRef } from "../../../services/firebase/firestore/FBFirestoreService";
+import { ListItem, Text, withTheme } from 'react-native-elements';
+import React, { useEffect, useState } from 'react';
+import { SectionList, View } from 'react-native';
+
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import InviteModal from '../invite/InviteModal';
+import Modal from 'react-native-modal';
+import NoGames from '../no-game/NoGames';
+import SectionHeader from './SectionHeader';
+import SectionSubtitle from './SectionSubtitle';
+import { getUserGamesRef } from '../../../services/firebase/firestore/FBFirestoreService';
 
 const GamesList = ({ navigation, uid, theme }) => {
   const [games, setGames] = useState([]);
@@ -21,7 +22,7 @@ const GamesList = ({ navigation, uid, theme }) => {
 
         tempGames.push({
           key: doc.id,
-          ...game
+          ...game,
         });
       });
     }
@@ -42,38 +43,37 @@ const GamesList = ({ navigation, uid, theme }) => {
   const invites = () => {
     return games.filter(
       game =>
-        game.status !== "completed" &&
+        game.status !== 'completed' &&
         game.players.find(p => p.uid === uid && p.accepted === false)
     );
   };
   const active = () => {
     return games.filter(
       game =>
-        game.status !== "completed" &&
+        game.status !== 'completed' &&
         game.players.find(p => p.uid === uid && p.accepted === true)
     );
   };
   const finished = () => {
-    return games.filter(game => game.status === "completed");
+    return games.filter(game => game.status === 'completed');
   };
 
   const goToGame = item => {
-    console.log(navigation);
     if (
-      item.status === "pending" &&
+      item.status === 'pending' &&
       item.players.find(p => p.uid === uid && p.accepted === false)
     ) {
       setModalVisable(true);
-    } else if (item.status === "active" && item.activePlayer === uid) {
-      navigation.navigate("Game", {
-        game: item,
-        uid: uid
-      });
-    } else if (item.status === "calling" && item.activePlayer === uid) {
-      navigation.navigate("Game", {
+    } else if (item.status === 'active' && item.activePlayer === uid) {
+      navigation.navigate('Game', {
         game: item,
         uid: uid,
-        calling: true
+      });
+    } else if (item.status === 'calling' && item.activePlayer === uid) {
+      navigation.navigate('Game', {
+        game: item,
+        uid: uid,
+        calling: true,
       });
     }
   };
@@ -85,13 +85,13 @@ const GamesList = ({ navigation, uid, theme }) => {
     const finishedArr = finished();
 
     if (invitesArr.length) {
-      sections.push({ type: "invite", data: invitesArr });
+      sections.push({ type: 'invite', data: invitesArr });
     }
     if (activeArr.length) {
-      sections.push({ type: "active", data: activeArr });
+      sections.push({ type: 'active', data: activeArr });
     }
     if (finishedArr.length) {
-      sections.push({ type: "finished", data: finishedArr });
+      sections.push({ type: 'finished', data: finishedArr });
     }
     // if (!invitesArr.length && !activeArr.length && !finishedArr.length) {
     //     sections.push({ type: 'no-games', data: [] });
@@ -110,12 +110,12 @@ const GamesList = ({ navigation, uid, theme }) => {
               <ListItem
                 style={{ borderRadius: 5 }}
                 containerStyle={{
-                  borderRadius: 5
+                  borderRadius: 5,
                   // marginBottom: 10
                 }}
                 titleStyle={{
                   color: theme.colors.darkShade,
-                  fontWeight: "bold"
+                  fontWeight: 'bold',
                 }}
                 title={item.title}
                 subtitle={<SectionSubtitle item={item} theme={theme} />}
@@ -129,14 +129,14 @@ const GamesList = ({ navigation, uid, theme }) => {
                 }
                 leftAvatar={{
                   source:
-                    item.status === "active" || item.status === "calling"
+                    item.status === 'active' || item.status === 'calling'
                       ? {
                           uri: item.players.find(
                             p => p.uid === item.activePlayer
-                          ).photoURL
+                          ).photoURL,
                         }
                       : null,
-                  title: item.title[0]
+                  title: item.title[0],
                 }}
                 onPress={() => {
                   // TODO: save game state so game page can
@@ -167,8 +167,7 @@ const GamesList = ({ navigation, uid, theme }) => {
         backdropTransitionOutTiming={600}
         onBackdropPress={() => setModalVisable(false)}
         onSwipeComplete={() => setModalVisable(false)}
-        swipeDirection={["left", "right"]}
-      >
+        swipeDirection={['left', 'right']}>
         <InviteModal theme={theme} />
       </Modal>
     </View>

@@ -1,7 +1,7 @@
-import {Animated, Easing} from 'react-native';
-import {useState, useEffect} from 'react';
+import { Animated, Easing } from 'react-native';
+import { useEffect, useState } from 'react';
 
-export const useAnimation = ({enablePlay, endWidth, duration = 25000}) => {
+export const useAnimation = ({ enablePlay, endWidth, duration = 25000 }) => {
   const [animation] = useState(new Animated.Value(0));
   useEffect(() => {
     if (enablePlay) {

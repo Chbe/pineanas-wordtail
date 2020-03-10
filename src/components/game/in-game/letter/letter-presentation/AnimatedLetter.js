@@ -1,9 +1,9 @@
+import { Animated } from 'react-native';
 import React from 'react';
-import {Animated} from 'react-native';
-import {useAnimation} from './AnimatedHook';
+import { useAnimation } from './AnimatedHook';
 
-const AnimatedLetter = ({letter, doAnimation, theme}) => {
-  const animation = useAnimation({doAnimation});
+const AnimatedLetter = ({ letter, doAnimation, theme }) => {
+  const animation = useAnimation({ doAnimation });
   return (
     <Animated.Text
       style={{

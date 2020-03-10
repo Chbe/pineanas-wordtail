@@ -1,10 +1,10 @@
-import { useState, useContext, useMemo, createContext } from "react";
+import { createContext, useContext, useMemo, useState } from 'react';
 
 const initialState = {
-  username: "",
-  photoURL: "",
-  displayName: "",
-  email: ""
+  username: '',
+  photoURL: '',
+  displayName: '',
+  email: '',
 };
 
 const ProfileContext = createContext({});
@@ -28,14 +28,14 @@ const ProfileStore = () => {
 // functions.
 const getActions = setState => ({
   clear: () => {
-    console.log("clear");
+    console.log('clear');
     setState(state => ({ ...state, initialState }));
   },
   setUsername: payload => {
     setState(state => ({ ...state, username: payload }));
   },
   setPhotoUrl: payload => {
-    console.log("setPhptoUrl");
+    console.log('setPhptoUrl');
     setState(state => ({ ...state, photoURL: payload }));
   },
   setDisplayName: payload => {
@@ -43,7 +43,7 @@ const getActions = setState => ({
   },
   setEmail: payload => {
     setState(state => ({ ...state, email: payload }));
-  }
+  },
 });
 
 const useProfileContext = () => {
