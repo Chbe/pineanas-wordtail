@@ -2,6 +2,7 @@ import { Alert, View } from 'react-native';
 import { Button, Icon, Text, withTheme } from 'react-native-elements';
 import {
   CenterView,
+  PaddingView,
   SafeWrapper,
 } from '../../components/ui/containers/Containers';
 import { GameContext, GameStore, useGameContext } from '../../stores/GameStore';
@@ -14,6 +15,7 @@ import {
 } from '../../services/game/GameService';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Keyboard from '../../components/game/in-game/keyboard/Keyboard';
 import LetterBox from '../../components/game/in-game/letter/LetterBox';
 import Modal from 'react-native-modal';
@@ -42,6 +44,25 @@ const ModalContainer = styled(CenterView)`
 `;
 
 const GamePage = ({ route, navigation, theme }) => {
+  navigation.setOptions({
+    headerLeft: () => (
+      <PaddingView>
+        <FontAwesome5Icon
+          color={theme.barStyle === 'light-content' ? '#fff' : '#000'}
+          size={24}
+          name="arrow-left"
+          onPress={() => {
+            /** TODO: Active state? */
+            if (state.enablePlay || !state.timesup) {
+              alert('game active');
+            } else {
+              navigation.goBack();
+            }
+          }}
+        />
+      </PaddingView>
+    ),
+  });
   const { state, actions } = GameStore();
   const [game, setGame] = useState({});
   const [currentUid, setUid] = useState('');
