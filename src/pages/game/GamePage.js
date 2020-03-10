@@ -20,6 +20,7 @@ import Modal from 'react-native-modal';
 import ProgressBar from '../../components/game/in-game/progress-bar/ProgressBar';
 import Spinner from '../../components/ui/controls/spinner/Spinner';
 import firebase from '@react-native-firebase/app';
+import { saveDocument } from '../../services/firebase/firestore/FBFirestoreService';
 import styled from 'styled-components';
 
 const Wrapper = styled(CenterView)`
@@ -50,11 +51,6 @@ const GamePage = ({ route, navigation, theme }) => {
     const [spinnerIsVisable, setSpinnerVisable] = useState(false);
     const [modalIsVisable, setModalVisable] = useState(false);
     const [modalData, setModalData] = useState({});
-
-    const firestoreRef = firebase
-        .firestore()
-        .collection('games')
-        .doc(game.key);
 
     const determineGameActions = async type => {
         setSpinnerVisable(true);
@@ -161,7 +157,7 @@ const GamePage = ({ route, navigation, theme }) => {
         firestoreUpdates['status'] = 'calling';
         firestoreUpdates['caller'] = currentUid;
         firestoreUpdates['revealer'] = firestoreUpdates.activePlayer;
-        await updateFirestoreData(firestoreUpdates);
+        await saveDocument(`games/${game.key}`, firestoreUpdates, true);
         const displayName = getDisplayNameByUid(
             game.players,
             firestoreUpdates.activePlayer
@@ -208,7 +204,7 @@ const GamePage = ({ route, navigation, theme }) => {
         firestoreUpdates['letters'] = !!game.letters
             ? [...game.letters, letter]
             : [letter];
-        await updateFirestoreData(firestoreUpdates);
+        await saveDocument(`games/${game.key}`, firestoreUpdates, true);
     };
 
     const playerSentNoLetter = async (
@@ -269,7 +265,7 @@ const GamePage = ({ route, navigation, theme }) => {
             title: game.title,
             winner: getClosestActivePlayer(game.players, userToGetMark),
         };
-        await setFirestoreData(firestoreData);
+        await saveDocument(`games/${game.key}`, firestoreData, false, false);
     };
 
     const markPlayer = async (uid, nrOfMarks = 1, prevPlayer = false) => {
@@ -287,7 +283,7 @@ const GamePage = ({ route, navigation, theme }) => {
             }
             return player;
         });
-        await updateFirestoreData(firestoreUpdates);
+        await saveDocument(`games/${game.key}`, firestoreUpdates, false, false);
     };
 
     const validateWordAndCalcMarks = async () => {
@@ -326,24 +322,6 @@ const GamePage = ({ route, navigation, theme }) => {
         }
 
         return { userToMark, nextPlayerWon, wordDefintions, currentScore };
-    };
-
-    const updateFirestoreData = async dataObj => {
-        try {
-            console.log('updateData:', dataObj);
-            //await firestoreRef.update(dataObj);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const setFirestoreData = async dataObj => {
-        try {
-            console.log('setData:', dataObj);
-            //await firestoreRef.set(dataObj);
-        } catch (error) {
-            console.error(error);
-        }
     };
 
     const renderModalContent = () => (

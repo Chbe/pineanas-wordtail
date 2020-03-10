@@ -1,8 +1,8 @@
+import {Button} from 'react-native-elements';
+import {CenterView} from '../../ui/containers/Containers';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import React from 'react';
 import styled from 'styled-components';
-import {CenterView} from '../../ui/containers/Containers';
-import {Button} from 'react-native-elements';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const InviteModal = ({theme}) => {
   const ModalContainer = styled(CenterView)`
@@ -12,6 +12,7 @@ const InviteModal = ({theme}) => {
     padding: 22px;
     border-radius: 4;
   `;
+  /** TODO: Accept or deline invite */
   return (
     <ModalContainer>
       <Button
