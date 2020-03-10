@@ -1,7 +1,8 @@
 import firebase from "@react-native-firebase/app";
+import { getUid } from "../auth/FBAuthService";
 
 export const uploadPhoto = async photo => {
-  const uid = firebase.auth().currentUser.uid;
+  const uid = getUid();
   const storageRef = firebase.storage().ref();
   const userPhotoRef = storageRef.child(`${uid}/avatar`);
 

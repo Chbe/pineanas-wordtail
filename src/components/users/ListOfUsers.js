@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { ListItem } from "react-native-elements";
 import { useCreateGameContext } from "../../stores/CreateGameStore";
 import { FlatList } from "react-native";
-import firebase from "@react-native-firebase/app";
+import { updateDbProfile, getUserRef } from "../../services/firebase/firestore/FBFirestoreService";
+import { getUid, getCurrentUser } from "../../services/firebase/auth/FBAuthService";
 
 const ListOfUsers = ({ users = [], userSearch }) => {
   const { actions } = useCreateGameContext();
@@ -21,21 +22,12 @@ const ListOfUsers = ({ users = [], userSearch }) => {
 
   const addToFriendsList = async ({ displayName, uid, photoURL }) => {
     if (!friends.find(f => f.uid === uid)) {
-      const currentUserUid = firebase.auth().currentUser.uid;
-      const userRef = firebase
-        .firestore()
-        .collection("users")
-        .doc(currentUserUid);
-
       const newFriend = { uid, displayName, photoURL };
       const currentFriendsList = formatFriendsList();
 
-      await userRef.set(
-        {
-          friends: [...currentFriendsList, newFriend]
-        },
-        { merge: true }
-      );
+      await updateDbProfile({
+        friends: [...currentFriendsList, newFriend]
+      });
     }
   };
 
@@ -77,7 +69,7 @@ const ListOfUsers = ({ users = [], userSearch }) => {
   };
 
   const getFriendSubtitle = () => {
-    return friends.find(f => f.uid === firebase.auth().currentUser.uid)
+    return friends.find(f => f.uid === getUid())
       ? "Already friends"
       : "Add friend";
   };
@@ -85,7 +77,7 @@ const ListOfUsers = ({ users = [], userSearch }) => {
   useEffect(() => {
     let sub;
     actions.clear();
-    const { uid, displayName, email, photoURL } = firebase.auth().currentUser;
+    const { uid, displayName, email, photoURL } = getCurrentUser();
     actions.setAdmin(uid);
     setAdminPLayer({
       uid,
@@ -97,10 +89,7 @@ const ListOfUsers = ({ users = [], userSearch }) => {
       accepted: true
     });
 
-    const userRef = firebase
-      .firestore()
-      .collection("users")
-      .doc(uid);
+    const userRef = getUserRef();
 
     sub = userRef.onSnapshot(getFriends);
 

@@ -1,16 +1,12 @@
 import React, { useState, useRef } from "react";
 import { View, Platform } from "react-native";
-import firebase from "@react-native-firebase/app";
 import _ from "lodash";
 import { SearchBar } from "react-native-elements";
 import ListOfUsers from "./ListOfUsers";
 import { minUsernameLength } from "../../const/Const";
+import { getUsersRef } from "../../services/firebase/firestore/FBFirestoreService";
 
 const UserSearchBar = () => {
-  const usersRef = firebase
-    .firestore()
-    .collection("users")
-    .limit(3);
   const [searchTxt, setSearchTxt] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [users, setUsersList] = useState([]);
@@ -25,7 +21,7 @@ const UserSearchBar = () => {
   const doSearch = async (searchString = "") => {
     if (searchString.length > minUsernameLength - 1) {
       setIsSearching(true);
-      const querySnapshot = await usersRef
+      const querySnapshot = await getUsersRef(3)
         .where("username", "==", searchString)
         .limit(3)
         .get();

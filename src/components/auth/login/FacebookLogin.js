@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { facebookLogin } from "../AuthFunctions";
 import { Button } from "react-native-elements";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { facebookLogin } from "../../../services/firebase/auth/FBAuthService";
 
 const FacebookLogin = ({ convertUser = false }) => {
   const [loading, setLoading] = useState(false);

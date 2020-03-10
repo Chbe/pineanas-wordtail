@@ -62,7 +62,7 @@ const NotAnonymous = ({ user, theme }) => {
           tintColor={theme.colors.lightAccent}
           label={user.username ? user.username : "Anonymous username"}
           value={state.username}
-          onChangeText={name => actions.setUsername(name)}
+          onChangeText={name => actions.setUsername(name.toLowerCase())}
         />
         <TextField
           baseColor={theme.colors.lightAccent}

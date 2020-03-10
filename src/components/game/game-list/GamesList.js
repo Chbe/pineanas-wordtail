@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { SectionList, View } from "react-native";
-import firebase from "@react-native-firebase/app";
 import { ListItem, Text, withTheme } from "react-native-elements";
 import SectionHeader from "./SectionHeader";
 import SectionSubtitle from "./SectionSubtitle";
@@ -8,6 +7,7 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import NoGames from "../no-game/NoGames";
 import InviteModal from "../invite/InviteModal";
 import Modal from "react-native-modal";
+import { getUserGamesRef } from "../../../services/firebase/firestore/FBFirestoreService";
 
 const GamesList = ({ navigation, uid, theme }) => {
   const [games, setGames] = useState([]);
@@ -30,14 +30,7 @@ const GamesList = ({ navigation, uid, theme }) => {
   useEffect(() => {
     let sub;
     if (uid) {
-      const ref = firebase
-        .firestore()
-        .collection("games")
-        .where("playersUid", "array-contains", uid)
-        .orderBy("status", "asc")
-        .orderBy("lastUpdated", "desc");
-      // .limit(5); TODO
-      sub = ref.onSnapshot(onCollectionUpdate);
+      sub = getUserGamesRef(5).onSnapshot(onCollectionUpdate);
     }
     return () => {
       if (sub) {
@@ -65,7 +58,7 @@ const GamesList = ({ navigation, uid, theme }) => {
   };
 
   const goToGame = item => {
-    console.log(navigation)
+    console.log(navigation);
     if (
       item.status === "pending" &&
       item.players.find(p => p.uid === uid && p.accepted === false)

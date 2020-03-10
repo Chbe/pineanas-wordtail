@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { withTheme, Button, Avatar, Text } from "react-native-elements";
-import { logout } from "../../components/auth/AuthFunctions";
-import firebase from "@react-native-firebase/app";
 import {
   SafeWrapper,
   PaddingView
 } from "../../components/ui/containers/Containers";
 import NotAnonymous from "./not-anonymous/NotAnonymous";
 import Anonymous from "./anonymous/Anonymous";
+import {
+  logout,
+  getCurrentUser
+} from "../../services/firebase/auth/FBAuthService";
+import { getUserRef } from "../../services/firebase/firestore/FBFirestoreService";
 
 const ProfilePage = ({ theme }) => {
   const [user, setUser] = useState({});
   const [fbUser, setFbUser] = useState({});
 
   const setUserInfo = async querySnapshot => {
-    setFbUser(firebase.auth().currentUser);
+    setFbUser(getCurrentUser());
     const userData = querySnapshot.data();
     if (userData) {
       setUser(userData);
@@ -22,10 +25,7 @@ const ProfilePage = ({ theme }) => {
   };
 
   useEffect(() => {
-    const uid = firebase.auth().currentUser.uid;
-    const userRef = firebase.firestore().doc(`users/${uid}`);
-
-    let unsubscribe = userRef.onSnapshot(setUserInfo);
+    let unsubscribe = getUserRef().onSnapshot(setUserInfo);
     return () => {
       unsubscribe();
     };

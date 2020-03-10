@@ -10,23 +10,20 @@ import {
   CreateGameStore
 } from "../../stores/CreateGameStore";
 import { View } from "react-native";
-import firebase from "@react-native-firebase/app";
 import { Button, withTheme, Text } from "react-native-elements";
 import UserSearchBar from "../../components/users/UserSearchBar";
+import { addDocumentToCol } from "../../services/firebase/firestore/FBFirestoreService";
 
 const CreateGamePage = ({ navigation, theme }) => {
   const { state, actions } = CreateGameStore();
 
-  const createGame = async () => {
+  const createGame = () => {
     if (gameCanBeCreated) {
       const lastUpdated = Date.now();
-      await firebase
-        .firestore()
-        .collection("games")
-        .add({
-          ...state,
-          lastUpdated
-        });
+      addDocumentToCol("games", {
+        ...state,
+        lastUpdated
+      });
       navigation.goBack();
     }
   };

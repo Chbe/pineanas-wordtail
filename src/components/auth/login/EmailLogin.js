@@ -1,8 +1,8 @@
 import React, { useState, useEffect, createRef } from "react";
-import { emailLogin } from "../AuthFunctions";
 import { Button, Input, Text } from "react-native-elements";
 import { PaddingView } from "../../ui/containers/Containers";
 import { View } from "react-native";
+import { emailLogin } from "../../../services/firebase/auth/FBAuthService";
 
 const EmailLogin = ({ theme }) => {
   const inputRef = createRef();
