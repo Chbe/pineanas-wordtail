@@ -86,21 +86,21 @@ const NotAnonymous = ({ user, theme }) => {
           tintColor={theme.colors.lightAccent}
           label={user.username ? user.username : 'Anonymous username'}
           value={state.username}
-          onChangeText={name => actions.setUsername(name.toLowerCase())}
+          onChangeText={name => actions.setUsername(name.toLowerCase().trim())}
         />
         <TextField
           baseColor={theme.colors.lightAccent}
           tintColor={theme.colors.lightAccent}
           label={user.displayName ? user.displayName : 'Anonymous Name'}
           value={state.displayName}
-          onChangeText={name => actions.setDisplayName(name)}
+          onChangeText={name => actions.setDisplayName(name.trim())}
         />
         <TextField
           baseColor={theme.colors.lightAccent}
           tintColor={theme.colors.lightAccent}
           label={user.email ? user.email : 'Anonymous Email'}
           value={state.email}
-          onChangeText={email => actions.setEmail(email)}
+          onChangeText={email => actions.setEmail(email.trim())}
         />
         <Button
           title="Save profile"

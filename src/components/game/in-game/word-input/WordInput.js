@@ -29,7 +29,7 @@ const WordInput = ({ letters = '' }) => {
       autoCorrect={false}
       enablesReturnKeyAutomatically={true}
       placeholder={`${letters.join('')}...`}
-      onChangeText={text => actions.setCompleteWord(text.toUpperCase())}
+      onChangeText={text => actions.setCompleteWord(text.toUpperCase().trim())}
     />
   );
 };
