@@ -35,7 +35,6 @@ const getActions = setState => ({
     setState(state => ({ ...state, username: payload }));
   },
   setPhotoUrl: payload => {
-    console.log('setPhptoUrl');
     setState(state => ({ ...state, photoURL: payload }));
   },
   setDisplayName: payload => {
