@@ -3,6 +3,7 @@ import {
   PaddingView,
   SafeWrapper,
 } from '../../components/ui/containers/Containers';
+import { ProfileContext, ProfileStore } from '../../stores/ProfileStore';
 import React, { useEffect, useState } from 'react';
 import {
   getCurrentUser,
@@ -16,6 +17,7 @@ import NotAnonymous from './not-anonymous/NotAnonymous';
 import { getUserRef } from '../../services/firebase/firestore/FBFirestoreService';
 
 const ProfilePage = ({ navigation, theme }) => {
+  const { state, actions } = ProfileStore();
   const [user, setUser] = useState({});
   const [fbUser, setFbUser] = useState({});
 
@@ -54,15 +56,17 @@ const ProfilePage = ({ navigation, theme }) => {
   }, []);
 
   return (
-    <SafeWrapper bg={theme.colors.lightShade}>
-      <PaddingView>
-        {fbUser && !fbUser.isAnonymous ? (
-          <NotAnonymous user={user} />
-        ) : (
-          <Anonymous user={user} />
-        )}
-      </PaddingView>
-    </SafeWrapper>
+    <ProfileContext.Provider value={{ state, actions }}>
+      <SafeWrapper bg={theme.colors.lightShade}>
+        <PaddingView>
+          {fbUser && !fbUser.isAnonymous ? (
+            <NotAnonymous user={user} />
+          ) : (
+            <Anonymous user={user} />
+          )}
+        </PaddingView>
+      </SafeWrapper>
+    </ProfileContext.Provider>
   );
 };
 

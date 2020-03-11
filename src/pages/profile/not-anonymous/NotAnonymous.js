@@ -10,12 +10,12 @@ import {
 } from '../../../services/firebase/firestore/FBFirestoreService';
 
 import EditableAvatar from '../../../components/editable-avatar/EditableAvatar';
-import { ProfileStore } from '../../../stores/ProfileStore';
 import TextField from '../../../components/ui/controls/inputs/floating/FloatingInput';
 import { minUsernameLength } from '../../../const/Const';
+import { useProfileContext } from '../../../stores/ProfileStore';
 
 const NotAnonymous = ({ user, theme }) => {
-  const { state, actions } = ProfileStore();
+  const { state, actions } = useProfileContext();
 
   const [profileUpdated, setProfileUpdated] = useState(false);
 
